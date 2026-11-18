@@ -1011,7 +1011,7 @@ code before Kitsune was run.
 | Online Boutique | 12 services · 5 languages · gRPC | **100% / 100%** | 100% |
 | Spring PetClinic Microservices | 8 services · Spring Cloud gateway | **100% / 100%** | 0%, kept unseen |
 | Robot Shop | 12 services · 5 languages · HTTP + AMQP + nginx | **100% / 100%** | 17%, kept unseen |
-| **Train Ticket** ([report](TRAIN_TICKET_REPORT.md)) | 47 services · Spring RestTemplate + RabbitMQ + gateway | **100% / 100%** | 62%, kept unseen (80% precision) |
+| **Train Ticket** ([report](reports/train-ticket.md)) | 47 services · Spring RestTemplate + RabbitMQ + gateway | **100% / 100%** | 62%, kept unseen (80% precision) |
 | **PiggyMetrics** | 10 services · Spring Cloud: Feign, Zuul, config server, OAuth2 | **100% / 60%** · service edges 100% | 0% confirmed (60% possible) and 1 wrong link, kept unseen |
 
 *PiggyMetrics' two missing links are calls whose URL reaches a custom class through a Spring
@@ -1040,7 +1040,7 @@ OAuth2 configuration.*
 
 - **Meaning search is the strongest single tail:** 60% top-1 and 87% top-5 on PetClinic; 25% top-1 on Gson, which is harder.
 - **Combining tails widens coverage:** on Gson, the right code is in the results for 20 of 28 questions, against 16 with meaning search alone.
-- **The reranker did not clearly help** in this test, so it is used only for broad concept questions. Full details are in [BENCHMARK_V2_REPORT.md](BENCHMARK_V2_REPORT.md).
+- **The reranker did not clearly help** in this test, so it is used only for broad concept questions. Full details are in [Benchmark v2 report](reports/benchmark-v2.md).
 
 ### Speed
 
@@ -1104,11 +1104,11 @@ python kitsune/eval/run_system_eval.py -v    # many services
 ```
 
 **Further reading:**
-- [TRAIN_TICKET_REPORT.md](TRAIN_TICKET_REPORT.md): blind test on the Train Ticket benchmark (47 services).
-- [ARCHITECT_QA.md](ARCHITECT_QA.md): how Kitsune handles dependency injection, annotations, external libraries and multi-repo.
-- [KITSUNE_ARCHITECTURE.md](KITSUNE_ARCHITECTURE.md): deep technical detail.
-- [MULTI_SERVICE_DESIGN.md](MULTI_SERVICE_DESIGN.md): the multi-service design.
-- [BENCHMARK_V2_REPORT.md](BENCHMARK_V2_REPORT.md): retrieval benchmark.
+- [Train Ticket report](reports/train-ticket.md): blind test on the Train Ticket benchmark (47 services).
+- [Architect Q&A](architect-qa.md): how Kitsune handles dependency injection, annotations, external libraries and multi-repo.
+- [Architecture deep dive](architecture.md): deep technical detail.
+- [Multi-service design](design/multi-service.md): the multi-service design.
+- [Benchmark v2 report](reports/benchmark-v2.md): retrieval benchmark.
 
 ---
 

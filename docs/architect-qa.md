@@ -327,6 +327,6 @@ flowchart LR
 ---
 
 **See also:**
-- [KITSUNE.md](KITSUNE.md): full architecture and the name.
-- [MULTI_SERVICE_DESIGN.md](MULTI_SERVICE_DESIGN.md): the multi-service design.
+- [The Kitsune guide](guide.md): full architecture and the name.
+- [Multi-service design](design/multi-service.md): the multi-service design.
 - Tests: `tests/test_di.py`, `tests/test_externals.py`, `tests/test_services.py`, `tests/test_lore.py`.

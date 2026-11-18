@@ -69,7 +69,7 @@ flowchart LR
 
 **The full service map, read straight from Kitsune's Neo4j graph:**
 
-![Train Ticket service map from Neo4j](docs/images/train-ticket/service-map.svg)
+![Train Ticket service map from Neo4j](../images/train-ticket/service-map.svg)
 
 *Every box is a service, colored by language. Every arrow is a real call found in the code
 (dashed purple = RabbitMQ). Columns run from entry points on the left to leaf services on
@@ -144,7 +144,7 @@ This is the hard part: URLs are built in code, not written out. Real examples fr
 
 **The if/else case, as stored in Neo4j:** one function, two target services, both found.
 
-![rebook calls travel and travel2 from one function](docs/images/train-ticket/trace-rebook-branches.svg)
+![rebook calls travel and travel2 from one function](../images/train-ticket/trace-rebook-branches.svg)
 
 **Found: 159 HTTP calls in code, 4 queue publishes, and 40 routing entries** (39 gateway routes + the nginx UI → gateway): 203 in total.
 
@@ -174,7 +174,7 @@ Service links are stored as `HTTP_CALLS` and `MESSAGES` edges in the **same grap
 function-level `CALLS` edges. A question can therefore walk from a function in one service,
 across the network, into the handler in another.
 
-![Function-level trace from preserve to order, read from Neo4j](docs/images/train-ticket/trace-booking.svg)
+![Function-level trace from preserve to order, read from Neo4j](../images/train-ticket/trace-booking.svg)
 
 *Booking a ticket, as stored in Neo4j: `PreserveServiceImpl.preserve` calls `createOrder`.
 That function sends `POST /api/v1/orderservice/order`, which Kitsune connects to
@@ -208,9 +208,9 @@ That is dependency injection resolved across a service boundary.*
 | *"Who calls `POST /api/v1/orderservice/order`?"* | `engine.get_endpoint_callers(...)` returns each caller with **file and line** |
 | *"What does booking a ticket touch?"* | preserve → order, travel, seat, user, contacts, security, food, consign, assurance, station and basic, plus the `email` queue |
 
-![Who is affected if ts-order-service changes](docs/images/train-ticket/impact-order.svg)
+![Who is affected if ts-order-service changes](../images/train-ticket/impact-order.svg)
 
-![What booking a ticket touches](docs/images/train-ticket/fanout-preserve.svg)
+![What booking a ticket touches](../images/train-ticket/fanout-preserve.svg)
 
 ```python
 engine.get_service_links("ts-order-service", "in")          # who depends on order
@@ -250,7 +250,7 @@ flowchart LR
 
 ## 5. Results
 
-![Train Ticket accuracy before and after fixes](docs/images/train-ticket/accuracy-train-ticket.svg)
+![Train Ticket accuracy before and after fixes](../images/train-ticket/accuracy-train-ticket.svg)
 
 | | Precision | Recall | Service edges found | Wrong links | Impact |
 |---|---|---|---|---|---|
@@ -324,7 +324,7 @@ Kitsune never guesses. On Train Ticket it reports:
 
 ## 8. Comparison with the other systems
 
-![Link recall on five public systems, first run vs final](docs/images/train-ticket/recall-five-systems.svg)
+![Link recall on five public systems, first run vs final](../images/train-ticket/recall-five-systems.svg)
 
 All five systems after the fixes, measured with full indexing on a 4-core laptop:
 
@@ -393,4 +393,4 @@ python kitsune/eval/run_system_eval.py -v                          # all five (~
 
 - **Answer key:** `eval/system_questions.json` → `"train-ticket"`.
 - **Tests for the new behaviour:** `tests/test_services.py` (`test_spring_rest_template_patterns`, `test_gateway_routes_but_not_plain_url_properties`).
-- **Further reading:** [KITSUNE.md](KITSUNE.md) (architecture) · [ARCHITECT_QA.md](ARCHITECT_QA.md) (DI, annotations, libraries, multi-repo).
+- **Further reading:** [The Kitsune guide](../guide.md) (architecture) · [Architect Q&A](../architect-qa.md) (DI, annotations, libraries, multi-repo).

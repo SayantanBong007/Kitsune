@@ -1,5 +1,5 @@
 """
-Render the accuracy charts for TRAIN_TICKET_REPORT.md as SVG (no plotting libraries).
+Render the accuracy charts for docs/reports/train-ticket.md as SVG (no plotting libraries).
 
 The numbers are the measured results recorded in the report (blind first runs and the
 final run of eval/run_system_eval.py); update them here when the evaluation is re-run.

@@ -1,8 +1,11 @@
 """
-Fetch the public microservice systems used by eval/run_system_eval.py.
+Fetch the public code used by Kitsune's evaluations, at pinned commits:
 
-They are cloned at pinned commits into eval/external/ (git-ignored), so results
-are reproducible and the Kitsune repository stays small.
+- the microservice systems for eval/run_system_eval.py  -> eval/external/
+- Gson and Spring PetClinic for eval/eval_v2.py          -> eval/repos/gson, eval/repos/spring_petclinic
+
+All of these folders are git-ignored, so results are reproducible and the
+Kitsune repository stays small.
 
     python kitsune/eval/fetch_external.py
 """
@@ -12,7 +15,15 @@ import subprocess
 import sys
 from pathlib import Path
 
-EXTERNAL = Path(__file__).resolve().parent / "external"
+EVAL_DIR = Path(__file__).resolve().parent
+EXTERNAL = EVAL_DIR / "external"
+REPOS_DIR = EVAL_DIR / "repos"
+
+# Benchmark v2 (eval/eval_v2.py): (folder under eval/repos, repository, commit)
+V2_REPOS = [
+    ("gson", "https://github.com/google/gson.git", "828cbe0d7c5ab224c9bf441914ee391677196c0f"),
+    ("spring_petclinic", "https://github.com/spring-projects/spring-petclinic.git", "500158f732419217507c7656904b8e6aa1bcc0d6"),
+]
 
 # (folder, repository, commit)
 REPOS = [
@@ -36,15 +47,25 @@ def run(*cmd, cwd=None):
     subprocess.run(cmd, cwd=cwd, check=True)
 
 
+def fetch(base: Path, folder: str, url: str, commit: str):
+    dest = base / folder
+    if dest.exists() and not (dest / ".git").exists():
+        # A plain copy (for example from an older checkout of this repo): leave it alone.
+        print(f"{folder:28} already present (not a git clone), skipped")
+        return
+    if not dest.exists():
+        dest.parent.mkdir(parents=True, exist_ok=True)
+        print(f"cloning {url} -> {dest}")
+        run("git", "clone", "--quiet", "--filter=blob:none", url, str(dest))
+    run("git", "-c", "advice.detachedHead=false", "checkout", "--quiet", commit, cwd=dest)
+    print(f"{folder:28} @ {commit[:7]}")
+
+
 def main():
     for folder, url, commit in REPOS:
-        dest = EXTERNAL / folder
-        if not dest.exists():
-            dest.parent.mkdir(parents=True, exist_ok=True)
-            print(f"cloning {url} -> {dest}")
-            run("git", "clone", "--quiet", "--filter=blob:none", url, str(dest))
-        run("git", "-c", "advice.detachedHead=false", "checkout", "--quiet", commit, cwd=dest)
-        print(f"{folder:28} @ {commit}")
+        fetch(EXTERNAL, folder, url, commit)
+    for folder, url, commit in V2_REPOS:
+        fetch(REPOS_DIR, folder, url, commit)
 
 
 if __name__ == "__main__":

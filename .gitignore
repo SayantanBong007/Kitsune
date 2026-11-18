@@ -12,6 +12,12 @@ service_fabric.py
 parser/scip_loader.py
 tests/test_s_tier.py
 eval/external/
+# Third-party code for benchmark v2: fetched by eval/fetch_external.py, never committed
+eval/repos/gson/
+eval/repos/spring_petclinic/
+# Java build output
+target/
+.gradle/
 
 # packaging output
 build/

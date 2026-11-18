@@ -2,6 +2,8 @@
 
 Usage: python kitsune/eval/eval_v2.py gson|petclinic [--index] [--validate-only]
 
+First fetch the two repositories (not stored in git): python kitsune/eval/fetch_external.py
+
   --index          (re)build the index from eval/repos/<repo> first (needed once;
                    uses Qdrant/Neo4j if configured, else the local stores)
   --validate-only  only check that every expected answer exists in the index
